@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, useRoutes } from 'react-router-dom';
 import { blogRoutes } from './blogRoutes.tsx';
 import { userRoutes } from './userRoutes.tsx';
+import { adminRoutes } from './adminRoutes';
 import { AuthProvider } from '../lib/auth.tsx';
 import Layout from '../components/Layout';
 import ThemeProvider from '../components/ThemeProvider';
@@ -9,7 +10,7 @@ import ThemeProvider from '../components/ThemeProvider';
 const routes = [
   ...blogRoutes,
   ...userRoutes,
-  // Add more feature routes here
+  ...adminRoutes,
   { path: '/', element: <Navigate to="/blogs" replace /> },
 ];
 

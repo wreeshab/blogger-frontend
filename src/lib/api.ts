@@ -1,3 +1,44 @@
+// Admin Sharding
+export type ShardInfo = {
+  name: string;
+  status: string;
+  user_count: number;
+  blog_count: number;
+  host: string;
+  port: number;
+  user: string;
+  dbname: string;
+};
+
+export type ShardDistribution = Record<string, { user_count: number; blog_count: number }>;
+
+export type MigrateShardRequest = {
+  type: 'user' | 'blog';
+  id: number;
+  target: string;
+};
+
+export type MigrateShardResponse = {
+  status?: string;
+  error?: string;
+};
+
+export class AdminApi {
+  async getShards(): Promise<ShardInfo[]> {
+    return apiClient.request('/admin/shards', { method: 'GET' });
+  }
+  async getShardDistribution(): Promise<ShardDistribution> {
+    return apiClient.request('/admin/shards/distribution', { method: 'GET' });
+  }
+  async migrateShard(input: MigrateShardRequest): Promise<MigrateShardResponse> {
+    return apiClient.request('/admin/shards/migrate', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  }
+}
+
+export const adminApi = new AdminApi();
 import { API_BASE_URL } from "@/config/config.example";
 
 export type ApiSuccessResponse<T = unknown> = {
