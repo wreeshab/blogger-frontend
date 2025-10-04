@@ -1,12 +1,16 @@
-import { BrowserRouter, useRoutes } from 'react-router-dom';
+import { BrowserRouter, Navigate, useRoutes } from 'react-router-dom';
 import { blogRoutes } from './blogRoutes.tsx';
 import { userRoutes } from './userRoutes.tsx';
+import { AuthProvider } from '../lib/auth.tsx';
+import Layout from '../components/Layout';
+import ThemeProvider from '../components/ThemeProvider';
 
 // Combine all feature routes here
 const routes = [
   ...blogRoutes,
   ...userRoutes,
   // Add more feature routes here
+  { path: '/', element: <Navigate to="/blogs" replace /> },
 ];
 
 function AppRoutes() {
@@ -16,7 +20,13 @@ function AppRoutes() {
 export default function AppRouter() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <ThemeProvider>
+        <AuthProvider>
+          <Layout>
+            <AppRoutes />
+          </Layout>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }
